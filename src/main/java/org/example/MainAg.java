@@ -1,14 +1,15 @@
 package org.example;
 
+
 import static org.example.Utils.imprimirTabuleiro;
 
 public class MainAg {
 
     public static void main(String[] args) {
-        int nRainhas = 20;
-        int nPop = 20;
-        int nElite = 4;
-        int numGer = 250*nRainhas;
+        int nRainhas = 25;
+        int nPop = 40;
+        int nElite = 7;
+        int numGer = 5000*nRainhas;
 
         IndividuoFactory indFact = new IndividuoNRainhasFactory(nRainhas);
         AG ag = new AG();

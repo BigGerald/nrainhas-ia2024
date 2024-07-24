@@ -1,9 +1,6 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class AG {
 
@@ -41,14 +38,20 @@ public class AG {
 			}
 
 			// Combina a população inicial, os filhos e os mutantes
-			List<Individuo> joinList = new ArrayList<>(popIni);
-			joinList.addAll(filhos);
-			joinList.addAll(mutantes);
+			// Usar Set para remover duplicatas
+			Set<Individuo> joinSet = new HashSet<>(popIni); // Cria um HashSet com os elementos de popIni
+			joinSet.addAll(filhos); // Adiciona os filhos ao HashSet, removendo duplicatas automaticamente
+			joinSet.addAll(mutantes); // Adiciona os mutantes ao HashSet, removendo duplicatas automaticamente
+			List<Individuo> joinList = new ArrayList<>(joinSet); // Converte o HashSet de volta para uma List
+
+			// O uso do HashSet aqui é para garantir que todos os indivíduos na joinList sejam únicos.
+			// HashSet não permite elementos duplicados, então ao adicionar elementos a um HashSet,
+			// qualquer duplicata será automaticamente removida.
 
 			// Seleciona a nova população
 			List<Individuo> newPop = new ArrayList<>();
-			newPop.addAll(selecionarElite(joinList, nElite)); // Seleciona a elite
-			newPop.addAll(roleta(joinList, nPop - nElite, true)); // Seleciona o restante utilizando a roleta viciada
+			newPop.addAll(selecionarElite(joinList, nElite, true)); // Seleciona a elite
+			roleta(joinList, nPop - nElite, true, newPop); // Seleciona o restante utilizando a roleta viciada
 
 			popIni.clear();
 			popIni.addAll(newPop);
@@ -62,8 +65,11 @@ public class AG {
 	}
 
 	// Método para selecionar a elite dos melhores indivíduos
-	private List<Individuo> selecionarElite(List<Individuo> joinList, int nElite) {
+	private List<Individuo> selecionarElite(List<Individuo> joinList, int nElite, boolean isMinimizacao) {
 		joinList.sort(Comparator.comparingDouble(Individuo::getAvaliacao)); // Ordena os indivíduos
+		if (!isMinimizacao) {
+			Collections.reverse(joinList); // Inverte a ordem dos indivíduos
+		}
 		return new ArrayList<>(joinList.subList(0, nElite)); // Retorna os nElite melhores indivíduos
 	}
 
@@ -73,8 +79,7 @@ public class AG {
 	}
 
 	// Método da roleta viciada para seleção
-	private List<Individuo> roleta(List<Individuo> joinList, int nSelecao, boolean isMinimizacao) {
-		List<Individuo> selecionados = new ArrayList<>();
+	private void roleta(List<Individuo> joinList, int nSelecao, boolean isMinimizacao, List<Individuo> newPop) {
 		double soma1 = 0.0;
 
 		// Calcula a soma das avaliações
@@ -90,16 +95,14 @@ public class AG {
 
 			// Encontra o indivíduo correspondente ao alfa
 			for (Individuo ind : joinList) {
-				soma2 += isMinimizacao ? 1.0 / ind.getAvaliacao() : ind.getAvaliacao();
+				soma2 += isMinimizacao ? 1.0 / (Math.pow(ind.getAvaliacao(), 4) +0.1) : ind.getAvaliacao();
 				if (soma2 >= alfa) {
-					selecionados.add(ind);
+					newPop.add(ind);
 					joinList.remove(ind);
 					soma1 -= isMinimizacao ? 1.0 / ind.getAvaliacao() : ind.getAvaliacao();
 					break;
 				}
 			}
 		}
-
-		return selecionados;
 	}
 }
