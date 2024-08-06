@@ -1,7 +1,10 @@
-package org.example;
+package org.example.nrainhas;
 
 
-import static org.example.Utils.imprimirTabuleiro;
+import org.example.Individuo;
+import org.example.IndividuoFactory;
+
+import static org.example.nrainhas.Utils.imprimirTabuleiro;
 
 public class MainAg {
 

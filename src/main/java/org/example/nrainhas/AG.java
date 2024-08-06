@@ -1,4 +1,7 @@
-package org.example;
+package org.example.nrainhas;
+
+import org.example.Individuo;
+import org.example.IndividuoFactory;
 
 import java.util.*;
 

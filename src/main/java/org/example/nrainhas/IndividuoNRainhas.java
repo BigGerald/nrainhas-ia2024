@@ -1,12 +1,13 @@
-package org.example;
+package org.example.nrainhas;
 
 import lombok.Getter;
+import org.example.Individuo;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 @Getter
-public class IndividuoNRainhas implements Individuo{
+public class IndividuoNRainhas implements Individuo {
 
 	private int nRainhas;
 	private int[] vars;

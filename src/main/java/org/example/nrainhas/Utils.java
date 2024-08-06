@@ -1,4 +1,4 @@
-package org.example;
+package org.example.nrainhas;
 
 public class Utils {
     public static void imprimirTabuleiro(IndividuoNRainhas individuo) {
