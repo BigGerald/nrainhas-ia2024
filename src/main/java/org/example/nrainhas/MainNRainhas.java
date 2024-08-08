@@ -1,12 +1,13 @@
 package org.example.nrainhas;
 
 
+import org.example.AG;
 import org.example.Individuo;
 import org.example.IndividuoFactory;
 
 import static org.example.nrainhas.Utils.imprimirTabuleiro;
 
-public class MainAg {
+public class MainNRainhas {
 
     public static void main(String[] args) {
         int nRainhas = 25;

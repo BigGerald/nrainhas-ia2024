@@ -1,7 +1,4 @@
-package org.example.permfunction;
-
-import org.example.Individuo;
-import org.example.IndividuoFactory;
+package org.example;
 
 import java.util.*;
 
